@@ -17,6 +17,9 @@ namespace SKMBingo
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()
                 .UseStartup<Startup>()
+#if !DEBUG
+                .UseUrls("http://*:80")
+#endif
                 .Build();
 
             host.Run();

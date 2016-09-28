@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using SKMBingo.Models.Db;
+using Microsoft.EntityFrameworkCore;
 
 namespace SKMBingo
 {
@@ -38,6 +40,10 @@ namespace SKMBingo
             services.AddApplicationInsightsTelemetry(Configuration);
 
             services.AddMvc();
+
+            services.AddDbContext<BingoContext>(
+                opts => opts.UseNpgsql("User ID = bingo; Password = b!ngo; Host = vps.dszymanski.pl; Port = 5432; Database = skmbingo; Pooling = true;")
+            );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline
