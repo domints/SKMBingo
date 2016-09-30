@@ -14,20 +14,15 @@ namespace SKMBingo
 {
     public class Startup
     {
+        public static string ConnString = @"User ID = bingo; Password = b!ngo; Host = vps.dszymanski.pl; Port = 5432; Database = skmbingo; Pooling = true;";
+
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
-
-            if (env.IsEnvironment("Development"))
-            {
-                // This will push telemetry data through Application Insights pipeline faster, allowing you to view results immediately.
-                builder.AddApplicationInsightsSettings(developerMode: true);
-            }
-
-            builder.AddEnvironmentVariables();
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddEnvironmentVariables();
             Configuration = builder.Build();
         }
 
@@ -36,13 +31,10 @@ namespace SKMBingo
         // This method gets called by the runtime. Use this method to add services to the container
         public void ConfigureServices(IServiceCollection services)
         {
-            // Add framework services.
-            services.AddApplicationInsightsTelemetry(Configuration);
-
             services.AddMvc();
 
             services.AddDbContext<BingoContext>(
-                opts => opts.UseNpgsql("User ID = bingo; Password = b!ngo; Host = vps.dszymanski.pl; Port = 5432; Database = skmbingo; Pooling = true;")
+                opts => opts.UseNpgsql(ConnString)
             );
         }
 
@@ -51,10 +43,6 @@ namespace SKMBingo
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
-
-            app.UseApplicationInsightsRequestTelemetry();
-
-            app.UseApplicationInsightsExceptionTelemetry();
 
             app.UseMvc();
         }
