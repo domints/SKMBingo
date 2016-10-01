@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using SKMBingo.Models.Db;
 using Microsoft.EntityFrameworkCore;
+using SKMBingo.Services;
 
 namespace SKMBingo
 {
@@ -32,10 +33,11 @@ namespace SKMBingo
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-
+            
             services.AddDbContext<BingoContext>(
                 opts => opts.UseNpgsql(ConnString)
             );
+            services.AddScoped<IFieldService, FieldService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline
