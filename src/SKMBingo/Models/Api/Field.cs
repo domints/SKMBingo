@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -8,13 +9,13 @@ namespace SKMBingo.Models.Api
 {
     public class Field
     {
-        [DataMember(Name = "id")]
+        [JsonProperty("id")]
         public int Id { get; set; }
-        [DataMember(Name = "isactive")]
+        [JsonProperty("isactive")]
         public bool IsActive { get; set; }
-        [DataMember(Name = "number")]
+        [JsonProperty("number")]
         public int FieldNumber { get; set; }
-        [DataMember(Name = "name")]
+        [JsonProperty("name")]
         public string Name { get; set; }
     }
 }

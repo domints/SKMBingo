@@ -50,7 +50,7 @@ namespace SKMBingo.Controllers
 
         [HttpPost]
         [Route("")]
-        public ActionResult Add(Field field)
+        public ActionResult Add([FromBody] Field field)
         {
             int id = _fService.AddField(field);
             if(id == -2)
